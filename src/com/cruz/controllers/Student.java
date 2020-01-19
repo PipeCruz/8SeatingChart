@@ -10,45 +10,49 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Student {
-    private String _studentName,_exportName;
+    private String _studentName, _exportName;
     private Label _studentLabel;
 
-    public String get_studentName() {return _studentName;}
-    public String get_exportName(){return _exportName;}
-    public void set_studentName(String name){
-        if(name.equals("null")){
-            _studentName = "Empty\nSeat";
-            _exportName = "EMPTY";
-        }else{
-            int ind = name.indexOf(" ");
-            _studentName = name.substring(0,ind) + "\n" +name.substring(ind + 1,ind+2) + ".";
-            _exportName = _studentName;
-        }
-        this._studentLabel.setText(this._studentName);
+    public String get_studentName() {
+        return _studentName;
     }
 
-    public Label get_studentLabel(){return _studentLabel;}
+    public String get_exportName() {
+        return _exportName;
+    }
 
-    public Student(String name){
+    public Student(String name) {
         _studentLabel = new Label();
-        _studentLabel.setPrefSize(140,120);
+        _studentLabel.setPrefSize(140, 120);
         _studentLabel.setAlignment(Pos.CENTER);
         _studentLabel.setTextAlignment(TextAlignment.CENTER);
-        _studentLabel.setFont(new Font("Comic Sans",13));
-        if(name.equals("null")){
+        _studentLabel.setFont(new Font("Comic Sans", 13));
+        set_studentName(name);
+    }
+
+    public Label get_studentLabel() {
+        return _studentLabel;
+    }
+
+    public void set_studentName(String name) {
+        if (name.equals("null")) {
             _studentName = "Empty\nSeat";
             _exportName = "EMPTY";
-        }else{
+        } else {
             int ind = name.indexOf(" ");
-            _studentName = name.substring(0,ind) + "\n" +name.substring(ind + 1,ind+2) + ".";
-            _exportName = _studentName;
+            _studentName = name.substring(0, ind) + "\n" + name.substring(ind + 1, ind + 2) + ".";
+            _exportName = name.substring(0, ind) + " " + name.substring(ind + 1, ind + 2) + ".";
         }
         _studentLabel.setText(_studentName);
     }
 
     @Override
-    public String toString() {return "Student{" + "sName='" + _studentName +
-            '\'' + ", nameToDisplay=" + _studentLabel.getText() + '}';
+    public String toString() {
+        return "Student{\n" +
+                "_studentName= " + _studentName + '\n' +
+                "_exportName= " + _exportName + '\n' +
+                "_studentLabel= " + _studentLabel +
+                "\n}";
     }
 
     public static void export(Student[][] students) throws IOException {

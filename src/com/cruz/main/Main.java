@@ -24,7 +24,7 @@ public class Main extends Application {
      */
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {//fixme make a readable .csv style to start the list
         Parent root = FXMLLoader.load(getClass().getResource("/com/cruz/files/fxml/Main.fxml"));
         primaryStage.setTitle("Seating Simulator");
         primaryStage.setScene(new Scene(root, 850, 600));
