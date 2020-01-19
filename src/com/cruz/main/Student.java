@@ -1,4 +1,4 @@
-package com.cruz.controllers;
+package com.cruz.main;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -38,10 +38,11 @@ public class Student {
         if (name.equals("null")) {
             _studentName = "Empty\nSeat";
             _exportName = "EMPTY";
+//            _studentLabel.setGraphic();fixme bold font
         } else {
             int ind = name.indexOf(" ");
             _studentName = name.substring(0, ind) + "\n" + name.substring(ind + 1, ind + 2) + ".";
-            _exportName = name.substring(0, ind) + " " + name.substring(ind + 1, ind + 2) + ".";
+            _exportName = name;
         }
         _studentLabel.setText(_studentName);
     }

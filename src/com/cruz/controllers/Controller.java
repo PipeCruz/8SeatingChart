@@ -1,15 +1,19 @@
 package com.cruz.controllers;
 
+import com.cruz.main.Student;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class Controller {
@@ -20,15 +24,9 @@ public class Controller {
     private Student[][] students;
     @FXML
     private Button swapper;
-
     @FXML
-    private void initialize() {
-        System.out.println("initialize");
-        for (int c = 0; c < 5; c++)
-            for (int r = 0; r < 5; r++) {
-                griddy.add(students[r][c].get_studentLabel(), c, r);
-            }
-    }
+    private TextArea tArea;
+
 
     //Method to check
     ArrayList<Integer> rowsCols = new ArrayList<>();
@@ -36,15 +34,22 @@ public class Controller {
     public Controller() {
         System.out.println("controller");
         students = new Student[5][5];
-        for (int r = 0; r < students.length; r++) {
-            for (int c = 0; c < students[r].length; c++) {
+        for (int r = 0; r < 5; r++) {
+            for (int c = 0; c < 5; c++) {
                 students[r][c] = new Student("null");
                 students[r][c].get_studentLabel().setOnMouseClicked(this::select);
             }
         }
-        students[0][0].set_studentName("robert viera");
-        students[2][2].set_studentName("fasdlfjk sd");
-        students[4][3].set_studentName("george bush");
+    }
+
+    @FXML
+    private void initialize() {//todo load from previous .csvs
+
+        System.out.println("initialize");
+        for (int c = 0; c < 5; c++)
+            for (int r = 0; r < 5; r++) {
+                griddy.add(students[r][c].get_studentLabel(), c, r);
+            }
     }
 
     private void select(MouseEvent e) {
@@ -52,13 +57,11 @@ public class Controller {
         Integer rowIndex = GridPane.getRowIndex(source);
         Integer colIndex = GridPane.getColumnIndex(source);
         if (swap) {
-            source.setTextFill(Paint.valueOf("blue"));
+            source.setTextFill(Paint.valueOf("red"));
             //THIS ORDER IS VERY IMPORTANT
             rowsCols.add(rowIndex);
             rowsCols.add(colIndex);
         }
-
-        System.out.println(students[rowIndex][colIndex]);
 
         if (rowsCols.size() == 4 && swap) {
             swap = false;
@@ -80,11 +83,12 @@ public class Controller {
         int c1 = rowsCols.remove(0);
         int r2 = rowsCols.remove(0);
         int c2 = rowsCols.remove(0);
-        System.out.println(Arrays.toString(students[0]));
         Student temp = students[r1][c1];
         students[r1][c1] = students[r2][c2];
         students[r2][c2] = temp;
-        System.out.println(Arrays.toString(students[0]));
+
+        students[r1][c1].get_studentLabel().setTextFill(Paint.valueOf("black"));
+        students[r2][c2].get_studentLabel().setTextFill(Paint.valueOf("black"));
     }
 
     @FXML
@@ -112,10 +116,46 @@ public class Controller {
     }
 
     @FXML
-    private void export(MouseEvent e) throws IOException {//fixme boolean b
+    private void export(ActionEvent e) throws IOException {//fixme boolean b
         Student.export(students);
-        Button b = (Button) e.getSource();
-        b.setDisable(true);
     }
 
+    @FXML
+    private void addStudentsFromList() {
+        System.out.println("add students from list");
+        String names = tArea.getText();
+        for (int c = 0; c < 5; c++) {
+            for (int r = 0; r < 5; r++) {
+                if (students[r][c].get_studentName().equals("Empty\nSeat")) {
+//                    students[r][c].set_studentName("Testing fixme");
+                    if (names.contains(",")) {
+                        students[r][c].set_studentName(names.substring(0, names.indexOf(",") + 1));
+                        names = names.substring(names.indexOf(",") + 1);
+                    } else {
+                        students[r][c].set_studentName(names);
+                        tArea.setText("");
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    @FXML
+    private void help(Event actionEvent) {
+        System.out.println("helping");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help");
+//        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+//        stage.getIcons().add(
+//                new Image("/Pictures/icon.png"));
+        alert.setHeaderText(null);
+        alert.setContentText("To Remove Students:\nSelect \"Remove\" button and select a student name\n" +
+                "To Remove All Students:\nSelect \"Clear Seating Chart\"\n" +
+                "To Swap Students:\nSelect the \"Swap\" button and select the names of two students\n" +
+                "To Add Students:\n--Type first and last names of students you wish to add\n  -separated by commas on different lines" +
+                "(Ex.)\n\tJohn Doe,[ENTER]\n\tPatricia Scott,[ENTER]...\n" +
+                "--Click the \"Add Students\" button");
+        alert.showAndWait();
+    }
 }
