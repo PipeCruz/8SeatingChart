@@ -1,6 +1,6 @@
 package com.cruz.controllers;
 
-import com.cruz.main.Student;
+import com.cruz.internal.Student;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -12,10 +12,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-public class Controller {
+public class MainController {
+
     @FXML
     private Button remover;
     @FXML
@@ -27,17 +31,10 @@ public class Controller {
 
     ArrayList<Integer> rowsCols;
     private Student[][] students;
-    private boolean swap;
+    private boolean swap, removeActive;
 
-    @FXML
-    private void initialize() {
-        for (int c = 0; c < students[0].length; c++)
-            for (int r = 0; r < students.length; r++) {
-                griddy.add(students[r][c].get_studentLabel(), c, r);
-            }
-    }
 
-    public Controller() {
+    public MainController() {
         rowsCols = new ArrayList<>(4);
         students = new Student[5][5];
         for (int r = 0; r < students.length; r++) {
@@ -48,12 +45,27 @@ public class Controller {
         }
     }
 
+    @FXML
+    private void initialize() {
+        tArea.setOpacity(3 / 4d);//fixme
+        tArea.setPromptText("Student One,\rStudent Two,\rStudent Three,\rStudent ...");
+        for (int c = 0; c < students[0].length; c++) {
+            for (int r = 0; r < students.length; r++) {
+                griddy.add(students[r][c].get_studentLabel(), c, r);
+            }
+        }
+    }
+
     private void select(MouseEvent e) {
         Label source = (Label) e.getSource();
         Integer rowIndex = GridPane.getRowIndex(source);
         Integer colIndex = GridPane.getColumnIndex(source);
+        if (removeActive) {
+            students[rowIndex][colIndex].set_studentName("null");
+            return;
+        }
         if (swap) {
-            source.setTextFill(Paint.valueOf("red"));
+            source.setTextFill(Paint.valueOf("darkred"));
             rowsCols.add(rowIndex);
             rowsCols.add(colIndex);
         }
@@ -66,13 +78,24 @@ public class Controller {
     }
 
     @FXML
+    private void remove() {
+        removeActive = !removeActive;
+        if (removeActive) {
+            remover.setText("Remover ON");
+            remover.setTextFill(Paint.valueOf("red"));
+        } else {
+            remover.setText("Remover OFF");
+            remover.setTextFill(Paint.valueOf("blue"));
+        }
+    }
+
+    @FXML
     private void swap() {
         swap = true;
         swapper.setDisable(true);
     }
 
     private void flip() {
-        System.out.println("flip");
         int r1 = rowsCols.remove(0);
         int c1 = rowsCols.remove(0);
         int r2 = rowsCols.remove(0);
@@ -81,8 +104,8 @@ public class Controller {
         students[r1][c1] = students[r2][c2];
         students[r2][c2] = temp;
 
-        students[r1][c1].get_studentLabel().setTextFill(Paint.valueOf("black"));
-        students[r2][c2].get_studentLabel().setTextFill(Paint.valueOf("black"));
+        students[r1][c1].get_studentLabel().setTextFill(Paint.valueOf("darkred"));
+        students[r2][c2].get_studentLabel().setTextFill(Paint.valueOf("darkred"));
     }
 
     @FXML
@@ -90,13 +113,12 @@ public class Controller {
         for (Student[] st : students) {
             for (Student s : st) {
                 s.set_studentName("null");
-                s.get_studentLabel().setTextFill(Paint.valueOf("black"));
+                s.get_studentLabel().setTextFill(Paint.valueOf("darkblue"));
             }
         }
     }
 
     private void update() {
-        System.out.println("update");
         for (Student[] st : students) {
             for (Student s : st) {
                 griddy.getChildren().remove(s.get_studentLabel());
@@ -108,10 +130,8 @@ public class Controller {
             }
         }
     }
-
     @FXML
     private void addStudentsFromList() {
-        System.out.println("add students from list");
         String names = tArea.getText();
         tArea.setText("");
         for (int c = 0; c < students[0].length; c++) {
@@ -128,14 +148,12 @@ public class Controller {
             }
         }
     }
-
     @FXML
     private void help() {
-        System.out.println("helping");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("com/cruz/files/images/GenericChair.jpg"));
+        stage.getIcons().add(new Image("com/cruz/files/images/icon.jpg"));
         alert.setHeaderText(null);
         alert.setContentText("To Remove Students:\nSelect \"Remove\" button and select a student name\n" +
                 "To Remove All Students:\nSelect \"Clear Seating Chart\"\n" +
@@ -152,11 +170,21 @@ public class Controller {
     }
 
     @FXML
-    private void loadItUp() throws IOException {//FIXME LOADING INFORMATION TODOFIXME
+    private void loadItUp() throws IOException {
         Student.load(students);
     }
 
     @FXML
-    private void remove() {
+    private void gotoGithub() {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().browse(new URI("https://github.com/PipeCruz/SeatingChart"));
+            } catch (IOException | URISyntaxException ex) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://github.com/PipeCruz/"));
+                } catch (Exception ignored) {
+                }
+            }
+        }
     }
 }

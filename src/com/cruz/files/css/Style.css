@@ -1,3 +1,17 @@
-.root{
-    -fx-background-image: url("../images/ClassRoomBackground.png");
+.root {
+    -fx-background-image: url("../images/backdrop.jpg");
+}
+
+.button {
+    -fx-font-family: "Comic Sans MS";
+    -fx-border-radius: 25;
+    -fx-border-color: transparent;
+}
+
+.text-area {
+    -fx-prompt-text-fill: darkgray;
+}
+
+.label {
+    -fx-blend-mode: darken;
 }

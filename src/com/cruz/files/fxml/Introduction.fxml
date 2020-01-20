@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8.0.171" fx:controller="com.cruz.controllers.Introduction">
+    <children>
+        <ImageView fitHeight="417.0" fitWidth="611.0" layoutY="-5.0" onMouseClicked="#commence">
+            <Image url="@../images/intro.png"/>
+        </ImageView>
+    </children>
+</AnchorPane>
