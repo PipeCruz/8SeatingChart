@@ -34,17 +34,17 @@ public class Student {
         return _studentLabel;
     }
 
-    public void set_studentName(String name) {
-        if (name.equals("null")) {
-            _studentName = "Empty\nSeat";
-            _exportName = "EMPTY";
-//            _studentLabel.setGraphic();fixme bold font
-        } else {
-            int ind = name.indexOf(" ");
-            _studentName = name.substring(0, ind) + "\n" + name.substring(ind + 1, ind + 2) + ".";
-            _exportName = name;
+    public static void export(Student[][] students) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("seatingChart.csv"));
+        int i = 0;
+        for (Student[] s : students) {
+            for (Student ss : s) {
+                System.out.println(i++ + " " + ss.get_exportName());
+                writer.write(ss.get_exportName() + ",");
+            }
+            writer.newLine();
         }
-        _studentLabel.setText(_studentName);
+        writer.close();
     }
 
     @Override
@@ -56,14 +56,30 @@ public class Student {
                 "\n}";
     }
 
-    public static void export(Student[][] students) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("seatingChart.csv"));
-        for(Student[] s : students){
-            for (Student ss : s) {
-                writer.write(ss.get_exportName() + ",");
+    public void set_studentName(String name) {
+        if (name.length() == 0) return;
+        if (name.equals("null") || name.equals("EMPTY")) {
+            _studentName = "Empty\nSeat";
+            _exportName = "EMPTY";
+//            _studentLabel.setGraphic();fixme bold font
+        } else {//fixme I NEED TO FIX THIS TO EXPORT FILES
+            int newline = name.indexOf("\n");
+            int ind = name.indexOf(" ");
+            _studentName = name.substring(0, ind) + "\n" + name.substring(ind + 1, ind + 2) + ".";
+            if (name.contains(",")) {
+                if (name.contains("\n")) {
+                    _exportName = name.substring(newline, name.length() - 1);//fixme
+                }
+            } else {
+                if (name.contains("\n")) {
+                    _exportName = name.substring(newline + 1);//fixme
+                } else {
+                    _exportName = name;
+                }
             }
-            writer.newLine();
+
+            System.out.println(_exportName);
         }
-        writer.close();
+        _studentLabel.setText(_studentName);
     }
 }

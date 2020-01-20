@@ -1,8 +1,6 @@
 package com.cruz.controllers;
 
 import com.cruz.main.Student;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -12,6 +10,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class Controller {
     ArrayList<Integer> rowsCols = new ArrayList<>();
 
     public Controller() {
-        System.out.println("controller");
+//        System.out.println("controller");
         students = new Student[5][5];
         for (int r = 0; r < 5; r++) {
             for (int c = 0; c < 5; c++) {
@@ -44,8 +45,7 @@ public class Controller {
 
     @FXML
     private void initialize() {//todo load from previous .csvs
-
-        System.out.println("initialize");
+//        System.out.println("initialize");
         for (int c = 0; c < 5; c++)
             for (int r = 0; r < 5; r++) {
                 griddy.add(students[r][c].get_studentLabel(), c, r);
@@ -72,7 +72,7 @@ public class Controller {
     }
 
     @FXML
-    private void swap(MouseEvent mouseEvent) {
+    private void swap() {
         swap = true;
         swapper.setDisable(true);
     }
@@ -116,7 +116,7 @@ public class Controller {
     }
 
     @FXML
-    private void export(ActionEvent e) throws IOException {//fixme boolean b
+    private void export() throws IOException {//fixme boolean b
         Student.export(students);
     }
 
@@ -124,16 +124,15 @@ public class Controller {
     private void addStudentsFromList() {
         System.out.println("add students from list");
         String names = tArea.getText();
+        tArea.setText("");
         for (int c = 0; c < 5; c++) {
             for (int r = 0; r < 5; r++) {
                 if (students[r][c].get_studentName().equals("Empty\nSeat")) {
-//                    students[r][c].set_studentName("Testing fixme");
                     if (names.contains(",")) {
-                        students[r][c].set_studentName(names.substring(0, names.indexOf(",") + 1));
+                        students[r][c].set_studentName(names.substring(0, names.indexOf(",")));
                         names = names.substring(names.indexOf(",") + 1);
                     } else {
                         students[r][c].set_studentName(names);
-                        tArea.setText("");
                         return;
                     }
                 }
@@ -142,7 +141,7 @@ public class Controller {
     }
 
     @FXML
-    private void help(Event actionEvent) {
+    private void help() {
         System.out.println("helping");
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
@@ -158,4 +157,36 @@ public class Controller {
                 "--Click the \"Add Students\" button");
         alert.showAndWait();
     }
+
+    @FXML
+    private void loadItUp() throws IOException {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Importing");
+//        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+//        stage.getIcons().add(
+//                new Image("/Pictures/icon.png"));
+        alert.setHeaderText(null);
+        alert.setContentText("Please export before importing\nExporting will create the file in the location where it can be found");
+        alert.showAndWait();
+        BufferedReader reader;
+        try {//fixme
+            reader = new BufferedReader(new FileReader("seatingChart.csv"));
+            for (int r = 0; r < 5; r++) {
+                String cur = reader.readLine();
+                for (int c = 0; c < 5; c++) {
+                    System.out.println("r " + r + "c " + c + "cur\n" + cur);
+                    String name = cur.substring(0, cur.indexOf(","));
+                    System.out.println("name " + name);
+                    cur = cur.substring(cur.indexOf(name) + name.length() + 1);
+                    System.out.println("trimmed name " + name);
+                    students[r][c].set_studentName(name);
+                }
+
+            }
+        } catch (FileNotFoundException e) {
+            alert.setContentText("File by name 'seatingChart.csv' not found");//fixme EXCEPTION
+            alert.showAndWait();
+        }
+    }
+
 }
