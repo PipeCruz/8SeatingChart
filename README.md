@@ -1,4 +1,4 @@
-# 8SeatingChart
+# SeatingChart
 Requirements met:
 - Students are displayed in a 2-D grid. 
 - Displays first names and the initial of the last name of all students.
@@ -7,3 +7,8 @@ Requirements met:
 - Students can be moved to an empty seat.
 - Students can have their seats swapped.
 - A custom seating chart can be loaded and will fill seats in column major order.
+# Features
+JavaFX:
+-GUI
+JavaIO:
+-importing/exporting of a .csv to load a custom chart (5x5)
