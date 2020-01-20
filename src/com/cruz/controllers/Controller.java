@@ -116,7 +116,7 @@ public class Controller {
     }
 
     @FXML
-    private void export() throws IOException {//fixme boolean b
+    private void export() throws IOException {
         Student.export(students);
     }
 
@@ -159,14 +159,15 @@ public class Controller {
     }
 
     @FXML
-    private void loadItUp() throws IOException {
+    private void loadItUp() throws IOException {//FIXME LOADING INFORMATION TODOFIXME
+        //todo refactor into student class?
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Importing");
 //        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
 //        stage.getIcons().add(
 //                new Image("/Pictures/icon.png"));
         alert.setHeaderText(null);
-        alert.setContentText("Please export before importing\nExporting will create the file in the location where it can be found");
+        alert.setContentText("If no file is found, one will be created with the current seat assignments");
         alert.showAndWait();
         BufferedReader reader;
         try {//fixme
@@ -181,10 +182,11 @@ public class Controller {
                     System.out.println("trimmed name " + name);
                     students[r][c].set_studentName(name);
                 }
-
             }
+            reader.close();
         } catch (FileNotFoundException e) {
-            alert.setContentText("File by name 'seatingChart.csv' not found");//fixme EXCEPTION
+            alert.setContentText("File by name 'seatingChart.csv' not found, so it has been created");//fixme EXCEPTION
+            Student.export(students);
             alert.showAndWait();
         }
     }

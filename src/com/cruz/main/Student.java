@@ -37,6 +37,12 @@ public class Student {
     public static void export(Student[][] students) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter("seatingChart.csv"));
         int i = 0;
+//        for (int r = 0; r < students.length; r++) {
+//            for (int c = 0; c < students.length; c++) {
+//                System.out.println(i++ + " " + students[r][c].get_exportName());
+//                writer.write(students[r][c].get_exportName());
+//            }
+//        }
         for (Student[] s : students) {
             for (Student ss : s) {
                 System.out.println(i++ + " " + ss.get_exportName());
@@ -77,7 +83,6 @@ public class Student {
                     _exportName = name;
                 }
             }
-
             System.out.println(_exportName);
         }
         _studentLabel.setText(_studentName);
