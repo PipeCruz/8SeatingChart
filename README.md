@@ -9,6 +9,7 @@ Requirements met:
 - A custom seating chart can be loaded and will fill seats in column major order.
 # Features
 JavaFX:
--GUI
+- GUI
+
 JavaIO:
--importing/exporting of a .csv to load a custom chart (5x5)
+- importing/exporting of a .csv to load a custom chart (5x5)
