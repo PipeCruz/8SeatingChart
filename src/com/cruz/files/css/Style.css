@@ -1,7 +1,6 @@
 .root {
     -fx-background-image: url("../images/backdrop.jpg");
 }
-
 .button {
     -fx-font-family: "Comic Sans MS";
     -fx-border-radius: 25;

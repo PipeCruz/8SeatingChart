@@ -71,7 +71,6 @@ public class Student {
         alert.setHeaderText(null);
         alert.setContentText("Please search for 'seatingChart.csv' in the current directory");
         alert.showAndWait();
-
         BufferedWriter writer = new BufferedWriter(new FileWriter("seatingChart.csv"));
         for (Student[] s : students) {
             for (Student student : s) {

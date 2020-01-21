@@ -13,14 +13,13 @@ public class Introduction {
 
     public void commence(MouseEvent mouseEvent) throws IOException {
         Node node = (Node) mouseEvent.getSource();
-
         Scene scene = node.getScene();
+        scene.setRoot(FXMLLoader.load(getClass().getResource("/com/cruz/files/fxml/Main.fxml")));
         Window window = scene.getWindow();
         Stage stage = (Stage) window;
         stage.setTitle("Student Seating Simulator");
         stage.setHeight(620);
         stage.setWidth(890);
-        scene.setRoot(FXMLLoader.load(getClass().getResource("/com/cruz/files/fxml/Main.fxml")));
         stage.centerOnScreen();
     }
 }

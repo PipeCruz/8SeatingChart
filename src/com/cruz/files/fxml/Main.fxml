@@ -21,20 +21,22 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
         </rowConstraints>
     </GridPane>
-    <Button fx:id="swapper" layoutX="40.0" layoutY="433.0" mnemonicParsing="false" onMouseClicked="#swap"
+    <Button fx:id="swapper" layoutX="40.0" layoutY="389.0" mnemonicParsing="false" onMouseClicked="#swap"
             prefHeight="28.0" prefWidth="97.0" text="Swap"/>
     <TextArea fx:id="tArea" layoutX="8.0" layoutY="65.0" prefHeight="250.0" prefWidth="160.0"/>
     <Button layoutX="40.0" layoutY="344.0" mnemonicParsing="false" onMouseClicked="#addStudentsFromList"
             prefHeight="28.0" prefWidth="97.0" text="Add Students"/>
-    <Button fx:id="remover" layoutX="40.0" layoutY="523.0" mnemonicParsing="false" onMouseClicked="#remove"
+    <Button fx:id="remover" layoutX="40.0" layoutY="437.0" mnemonicParsing="false" onMouseClicked="#remove"
             prefHeight="28.0" prefWidth="97.0" text="Remove"/>
     <MenuBar layoutX="-4.0" prefHeight="25.0" prefWidth="50.0">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#help" text="Help"/>
-            <MenuItem mnemonicParsing="false" onAction="#loadItUp" text="Import"/>
-            <MenuItem mnemonicParsing="false" onAction="#export" text="Export"/>
             <MenuItem mnemonicParsing="false" onAction="#clear" text="Clear Seating Chart"/>
             <MenuItem mnemonicParsing="false" onAction="#gotoGithub" text="Source Code"/>
         </Menu>
     </MenuBar>
+    <Button layoutX="40.0" layoutY="505.0" mnemonicParsing="false" onMouseClicked="#export" prefHeight="28.0"
+            prefWidth="97.0" text="Export File"/>
+    <Button layoutX="40.0" layoutY="533.0" mnemonicParsing="false" onMouseClicked="#loadItUp" prefHeight="28.0"
+            prefWidth="97.0" text="Import File"/>
 </AnchorPane>

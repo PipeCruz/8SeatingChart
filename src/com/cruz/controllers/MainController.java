@@ -135,13 +135,13 @@ public class MainController {
         String names = tArea.getText();
         tArea.setText("");
         for (int c = 0; c < students[0].length; c++) {
-            for (int r = 0; r < students.length; r++) {
-                if (students[r][c].get_studentName().equals("Empty\nSeat")) {
+            for (Student[] student : students) {
+                if (student[c].get_studentName().equals("Empty\nSeat")) {
                     if (names.contains(",")) {
-                        students[r][c].set_studentName(names.substring(0, names.indexOf(",")));
+                        student[c].set_studentName(names.substring(0, names.indexOf(",")));
                         names = names.substring(names.indexOf(",") + 1);
                     } else {
-                        students[r][c].set_studentName(names);
+                        student[c].set_studentName(names);
                         return;
                     }
                 }
@@ -160,7 +160,9 @@ public class MainController {
                 "To Swap Students:\nSelect the \"Swap\" button and select the names of two students\n" +
                 "To Add Students:\n--Type first and last names of students you wish to add\n  -separated by commas on different lines" +
                 "(Ex.)\n\tJohn Doe,[ENTER]\n\tPatricia Scott,[ENTER]...\n" +
-                "--Click the \"Add Students\" button");
+                "--Click the \"Add Students\" button\n" +
+                "Exporting will export the chart in a file by the name of\n--'seatingChart.csv'--\n" +
+                "Importing will attempt to import the file stated above");
         alert.showAndWait();
     }
 
