@@ -29,7 +29,7 @@ public class MainController {
     @FXML
     private TextArea tArea;
 
-    ArrayList<Integer> rowsCols;
+    private ArrayList<Integer> rowsCols;
     private Student[][] students;
     private boolean swap, removeActive;
 
@@ -65,7 +65,7 @@ public class MainController {
             return;
         }
         if (swap) {
-            source.setTextFill(Paint.valueOf("darkred"));
+            source.setTextFill(Paint.valueOf("darkgreen"));
             rowsCols.add(rowIndex);
             rowsCols.add(colIndex);
         }
@@ -104,8 +104,18 @@ public class MainController {
         students[r1][c1] = students[r2][c2];
         students[r2][c2] = temp;
 
-        students[r1][c1].get_studentLabel().setTextFill(Paint.valueOf("darkred"));
-        students[r2][c2].get_studentLabel().setTextFill(Paint.valueOf("darkred"));
+        students[r1][c1].get_studentLabel().setTextFill(
+                students[r1][c1].get_exportName().equals("EMPTY")
+                        ?
+                        Paint.valueOf("darkblue")
+                        :
+                        Paint.valueOf("darkred"));
+        students[r2][c2].get_studentLabel().setTextFill(
+                students[r2][c2].get_exportName().equals("EMPTY")
+                        ?
+                        Paint.valueOf("darkblue")
+                        :
+                        Paint.valueOf("darkred"));
     }
 
     @FXML
@@ -133,6 +143,7 @@ public class MainController {
     @FXML
     private void addStudentsFromList() {
         String names = tArea.getText();
+        if (!names.contains(" ")) return;
         tArea.setText("");
         for (int c = 0; c < students[0].length; c++) {
             for (Student[] student : students) {

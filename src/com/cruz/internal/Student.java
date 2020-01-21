@@ -49,9 +49,17 @@ public class Student {
             reader = new BufferedReader(new FileReader("seatingChart.csv"));
             for (int r = 0; r < 5; r++) {
                 String cur = reader.readLine();
+                System.out.println(cur);
                 for (int c = 0; c < 5; c++) {
-                    String name = cur.substring(0, cur.indexOf(","));
-                    cur = cur.substring(cur.indexOf(name) + name.length() + 1);
+                    String name;
+                    try {
+                        name = cur.substring(0, cur.indexOf(","));
+                        cur = cur.substring(cur.indexOf(",") + 1);
+                        System.out.println("tried name " + name + ", cur name " + cur);
+                    } catch (IndexOutOfBoundsException e) {
+                        name = cur;
+                        System.out.println("caught " + name);
+                    }
                     students[r][c].set_studentName(name);
                 }
             }
@@ -72,10 +80,13 @@ public class Student {
         alert.setContentText("Please search for 'seatingChart.csv' in the current directory");
         alert.showAndWait();
         BufferedWriter writer = new BufferedWriter(new FileWriter("seatingChart.csv"));
-        for (Student[] s : students) {
-            for (Student student : s) {
-                writer.write(student.get_exportName() + ",");
+        for (Student[] student : students) {
+            for (int c = 0; c < student.length; c++) {
+                String ah = c != student.length - 1 ? student[c].get_exportName() + "," : student[c].get_exportName();
+                writer.write(ah);
+                System.out.print(ah + " ");
             }
+            System.out.println();
             writer.newLine();
         }
         writer.close();
@@ -83,14 +94,17 @@ public class Student {
 
     public void set_studentName(String name) {
         if (name.length() == 0) return;
+
+        int newline = name.indexOf("\n");
+        int ind = name.indexOf(" ");
+
         if (name.equals("null") || name.equals("EMPTY")) {
             _studentName = "Empty\nSeat";
             _exportName = "EMPTY";
             _studentLabel.setFont(Font.font("Times New Roman", 20d));/// FIXME: 1/20/2020
             _studentLabel.setTextFill(Paint.valueOf("darkblue"));
+//            _studentLabel.setTextAlignment(TextAlignment.CENTER);
         } else {
-            int newline = name.indexOf("\n");
-            int ind = name.indexOf(" ");
             _studentName = name.substring(0, ind) + "\n" + name.substring(ind + 1, ind + 2) + ".";
             if (name.contains(",")) {
                 if (name.contains("\n")) {

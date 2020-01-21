@@ -11,6 +11,6 @@
     -fx-prompt-text-fill: darkgray;
 }
 
-.label {
+.label { /*fixme*/
     -fx-blend-mode: darken;
 }
