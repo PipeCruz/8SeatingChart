@@ -107,15 +107,15 @@ public class MainController {
         students[r1][c1].get_studentLabel().setTextFill(
                 students[r1][c1].get_exportName().equals("EMPTY")
                         ?
-                        Paint.valueOf("darkblue")
+                        Paint.valueOf("blue")
                         :
-                        Paint.valueOf("darkred"));
+                        Paint.valueOf("red"));
         students[r2][c2].get_studentLabel().setTextFill(
                 students[r2][c2].get_exportName().equals("EMPTY")
                         ?
-                        Paint.valueOf("darkblue")
+                        Paint.valueOf("blue")
                         :
-                        Paint.valueOf("darkred"));
+                        Paint.valueOf("red"));
     }
 
     @FXML
@@ -142,7 +142,7 @@ public class MainController {
     }
     @FXML
     private void addStudentsFromList() {
-        String names = tArea.getText();
+        String names = tArea.getText().trim();//thanks trevor
         if (!names.contains(" ")) return;
         tArea.setText("");
         for (int c = 0; c < students[0].length; c++) {
@@ -150,7 +150,7 @@ public class MainController {
                 if (student[c].get_studentName().equals("Empty\nSeat")) {
                     if (names.contains(",")) {
                         student[c].set_studentName(names.substring(0, names.indexOf(",")));
-                        names = names.substring(names.indexOf(",") + 1);
+                        names = names.substring(names.indexOf(",") + 1).trim();//thanks trevor again
                     } else {
                         student[c].set_studentName(names);
                         return;
@@ -159,6 +159,7 @@ public class MainController {
             }
         }
     }
+
     @FXML
     private void help() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -11,6 +11,8 @@
     -fx-prompt-text-fill: darkgray;
 }
 
-.label { /*fixme*/
-    -fx-blend-mode: darken;
+.outline.label .text {
+    -fx-stroke: black;
+    -fx-stroke-width: 1px;
+
 }
