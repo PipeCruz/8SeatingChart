@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class Introduction {
 
+    //intro scene that displays the intro image and nothing else
     public void commence(MouseEvent mouseEvent) throws IOException {
         Node node = (Node) mouseEvent.getSource();
         Scene scene = node.getScene();

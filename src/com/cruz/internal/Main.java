@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    /**
+    /*
      * @author Felipe Cruz
      * Homework #8: Seating Chart
      */

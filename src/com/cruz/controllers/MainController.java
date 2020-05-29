@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class MainController {
-
+    //FXML fields
     @FXML
     private Button remover;
     @FXML
@@ -28,12 +28,13 @@ public class MainController {
     private Button swapper;
     @FXML
     private TextArea tArea;
-
-    private ArrayList<Integer> rowsCols;
-    private Student[][] students;
+    //instance fields that keep count of the students
+    private final ArrayList<Integer> rowsCols;
+    private final Student[][] students;
     private boolean swap, removeActive;
 
-
+    //the constructor, which initializes the student array and the arraylist used for the swapping mechanism
+    //makes each seat an empty one
     public MainController() {
         rowsCols = new ArrayList<>(4);
         students = new Student[5][5];
@@ -44,10 +45,10 @@ public class MainController {
             }
         }
     }
-
+    //when initialized this sets the text of the text box and fills the gridpane
     @FXML
     private void initialize() {
-        tArea.setOpacity(3 / 4d);//fixme
+        tArea.setOpacity(3 / 4d);
         tArea.setPromptText("Student One,\rStudent Two,\rStudent Three,\rStudent ...");
         for (int c = 0; c < students[0].length; c++) {
             for (int r = 0; r < students.length; r++) {
@@ -55,7 +56,7 @@ public class MainController {
             }
         }
     }
-
+    //this method selects a student and swaps them if necessary
     private void select(MouseEvent e) {
         Label source = (Label) e.getSource();
         Integer rowIndex = GridPane.getRowIndex(source);
@@ -77,6 +78,7 @@ public class MainController {
         }
     }
 
+    //removes students from the list while the button is active
     @FXML
     private void remove() {
         removeActive = !removeActive;
@@ -88,18 +90,19 @@ public class MainController {
             remover.setTextFill(Paint.valueOf("blue"));
         }
     }
-
+    //used to activate the swapping method
     @FXML
     private void swap() {
         swap = true;
         swapper.setDisable(true);
     }
 
+    //flips the two selected students according to the ints in the arraylist
     private void flip() {
-        int r1 = rowsCols.remove(0);
-        int c1 = rowsCols.remove(0);
-        int r2 = rowsCols.remove(0);
-        int c2 = rowsCols.remove(0);
+        int r1 = rowsCols.remove(0),
+            c1 = rowsCols.remove(0),
+            r2 = rowsCols.remove(0),
+            c2 = rowsCols.remove(0);
         Student temp = students[r1][c1];
         students[r1][c1] = students[r2][c2];
         students[r2][c2] = temp;
@@ -117,7 +120,7 @@ public class MainController {
                         :
                         Paint.valueOf("red"));
     }
-
+    //sets the whole gridpane to have 'empty seats'
     @FXML
     private void clear() {
         for (Student[] st : students) {
@@ -127,7 +130,7 @@ public class MainController {
             }
         }
     }
-
+    //updates the gridpane to the latest array
     private void update() {
         for (Student[] st : students) {
             for (Student s : st) {
@@ -140,6 +143,9 @@ public class MainController {
             }
         }
     }
+
+    //parses the text area to get the names
+    //adds the names to the gridpane in order
     @FXML
     private void addStudentsFromList() {
         String names = tArea.getText().trim();//thanks trevor
@@ -159,7 +165,7 @@ public class MainController {
             }
         }
     }
-
+    //help prompt
     @FXML
     private void help() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -177,17 +183,17 @@ public class MainController {
                 "Importing will attempt to import the file stated above");
         alert.showAndWait();
     }
-
+    //calls student class's export method
     @FXML
     private void export() throws IOException {
         Student.export(students);
     }
-
+    //calls students class file reading method
     @FXML
     private void loadItUp() throws IOException {
         Student.load(students);
     }
-
+    //prompts github link, if possible go to repository, else go to my homepage
     @FXML
     private void gotoGithub() {
         if (Desktop.isDesktopSupported()) {

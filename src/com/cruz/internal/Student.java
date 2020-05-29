@@ -12,9 +12,11 @@ import javafx.stage.Stage;
 import java.io.*;
 
 public class Student {
+    //Instance fields
     private String _studentName, _exportName;
-    private Label _studentLabel;
+    private final Label _studentLabel;
 
+    //getters
     public String get_studentName() {
         return _studentName;
     }
@@ -27,6 +29,7 @@ public class Student {
         return _studentLabel;
     }
 
+    //constructs a student object, aligning it to be centered in the gridpane
     public Student(String name) {
         _studentLabel = new Label();
         _studentLabel.getStyleClass().add("outline");
@@ -34,9 +37,9 @@ public class Student {
         _studentLabel.setPrefSize(140, 120);
         _studentLabel.setAlignment(Pos.CENTER);
         _studentLabel.setTextAlignment(TextAlignment.CENTER);
-
     }
 
+    //import list of students from the csv file
     public static void load(Student[][] students) throws IOException {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Importing");
@@ -68,7 +71,7 @@ public class Student {
             alert.showAndWait();
         }
     }
-
+    //write the current chart to a .csv file titled seatingChart.csv
     public static void export(Student[][] students) throws IOException {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Exporting");
@@ -88,6 +91,7 @@ public class Student {
         writer.close();
     }
 
+    //updates the name of a student in the chart
     public void set_studentName(String name) {
         if (name.length() == 0) return;
 
@@ -117,7 +121,7 @@ public class Student {
         }
         _studentLabel.setText(_studentName);
     }
-
+    //used for debugging
     @Override
     public String toString() {
         return "Student{\n" +
